@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/boards")
@@ -14,8 +15,13 @@ public class BoardController {
     BoardService boardService;
 
     @PostMapping("")
-    public BoardDTO insertBoard(@RequestBody BoardDTO board) {
-        return boardService.insertBoard(board);
+    public BoardDTO insertBoard(@RequestBody Map<String,Object> boardObj) {
+        int index = (Integer) boardObj.get("index");
+        String userId = (String) boardObj.get("userId");
+        String title = (String) boardObj.get("title");
+        String text = (String) boardObj.get("text");
+
+        return boardService.insertBoard(new BoardDTO(index, userId, title, text));
     }
 
     @GetMapping("")
