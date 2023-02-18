@@ -1,7 +1,8 @@
 package com.daelim.blogbackend.controller;
 
-import com.daelim.blogbackend.dto.BoardDTO;
+import com.daelim.blogbackend.entity.Board;
 import com.daelim.blogbackend.service.BoardService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,32 +16,28 @@ public class BoardController {
     BoardService boardService;
 
     @PostMapping("")
-    public BoardDTO insertBoard(@RequestBody Map<String,Object> boardObj) {
-        int index = (Integer) boardObj.get("index");
-        String userId = (String) boardObj.get("userId");
-        String title = (String) boardObj.get("title");
-        String text = (String) boardObj.get("text");
-
-        return boardService.insertBoard(new BoardDTO(index, userId, title, text));
+    public Board insertBoard(@RequestBody Map<String,Object> boardObj) {
+        return boardService.write(boardObj);
     }
 
     @GetMapping("")
-    public List<BoardDTO> getAllBoards() {
+    public List<Board> getAllBoards() {
         return boardService.getAllBoards();
     }
 
-    @GetMapping("/{index}") // <- userId가 자동으로 들어감(@PathVariable)
-    public BoardDTO viewBoard(@PathVariable int index) {
-        return boardService.viewBoard(index);
+    @PutMapping("")
+    public void updateBoard(@RequestBody Map<String,Object> boardObj) {
+        boardService.updateBoard(boardObj);
     }
 
-    @PutMapping("/{index}")
-    public void updateBoard(@PathVariable int index, @RequestBody BoardDTO board) {
-        boardService.updateBoard(index, board);
+    @GetMapping("/{idx}") // <- userId가 자동으로 들어감(@PathVariable)
+    public Board viewBoard(@PathVariable int idx) {
+        return boardService.viewBoard(idx);
     }
 
-    @DeleteMapping("/{index}")
-    public void deleteBoard(@PathVariable int index) {
-        boardService.deleteBoard(index);
+
+    @DeleteMapping("/{idx}")
+    public void deleteBoard(@PathVariable int idx) {
+        boardService.deleteBoard(idx);
     }
 }
