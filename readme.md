@@ -10,7 +10,7 @@
 // 게시글 테이블
 Board : {
     idx int primary Auto_Increment,
-    userId varchar foreign(User.userId) Not_Null,
+    userId varchar Not_Null,
     title varchar Not_Null,
     content text,
     writeDate date Current_Timestamp,
