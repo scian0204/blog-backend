@@ -6,8 +6,12 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
+
+import java.sql.Timestamp;
 
 @Data
+@DynamicInsert
 //@ToString
 @Entity
 public class Board {
@@ -17,4 +21,6 @@ public class Board {
     private String userId;
     private String title;
     private String content;
+    private Timestamp writeDate;
+    private String imageLoc;
 }
