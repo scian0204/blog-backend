@@ -25,7 +25,7 @@ User {
     regDate date Current_Timestamp
 }
 
-//test
+
 ```
 
 ## API 표
