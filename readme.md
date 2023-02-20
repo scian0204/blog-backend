@@ -24,6 +24,8 @@ User {
     password varchar Not_Null, //sha256로 암호화
     regDate date Current_Timestamp
 }
+
+//test
 ```
 
 ## API 표
