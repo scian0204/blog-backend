@@ -1,11 +1,12 @@
 package com.daelim.blogbackend.controller;
 
-import com.daelim.blogbackend.entity.User;
 import com.daelim.blogbackend.service.UserService;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
 @RestController
@@ -15,12 +16,12 @@ public class UserController {
     UserService userService;
 
     @PostMapping("/signup")
-    public String signUp(@RequestBody Map<String, Object> userObj, HttpSession session) {
+    public String signUp(@RequestBody Map<String, Object> userObj, HttpSession session) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         return userService.signUp(userObj, session);
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody Map<String, Object> userObj, HttpSession session) {
+    public String login(@RequestBody Map<String, Object> userObj, HttpSession session) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         return userService.login(userObj, session);
     }
 
@@ -35,12 +36,12 @@ public class UserController {
     }
 
     @PutMapping("/modify")
-    public void updateUser(@RequestBody Map<String, Object> userObj, HttpSession session) {
+    public void updateUser(@RequestBody Map<String, Object> userObj, HttpSession session) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         userService.updateUser(userObj, session);
     }
 
     @PostMapping("/delete")
-    public String deleteUser(@RequestBody Map<String, Object> userObj, HttpSession session) {
+    public String deleteUser(@RequestBody Map<String, Object> userObj, HttpSession session) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         return userService.deleteUser(userObj, session);
     }
 }
