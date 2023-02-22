@@ -47,7 +47,7 @@ CREATE TABLE `User` (
 <tr>
 <td>/signup</td>
 <td>POST</td>
-<td>회원가입 후 세션 생성하여 자동로그인</td>
+<td>회원가입 후 세션<br>생성하여 자동로그인</td>
 <td><code>
 {
     "userId" : "",    <br> &emsp;
@@ -91,7 +91,7 @@ id가 존재하지만 pw가 틀렸을 때 : "1"<br>
 <tr>
 <td>/modify</td>
 <td>PUT</td>
-<td>회원정보 수정(세션에 저장된 userId와 넘긴 데이터의 userId가 같은지 확인하기 때문에 로그인이 돼있어야 함)</td>
+<td>회원정보 수정(세션에 저장된 userId와<br>넘긴 데이터의 userId가 같은지 확인하기<br>때문에 로그인이 돼있어야 함)</td>
 <td><code>
 {
     "userId" : "",    <br> &emsp;
