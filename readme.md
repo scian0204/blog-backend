@@ -117,3 +117,21 @@ pw가 틀렸을 때 : "1"<br>
 삭제됐을 때 : "0"</td>
 </tr>
 </table>
+<hr>
+/api/boards
+<table>
+<tr>
+<th>URL</th>
+<th>Method</th>
+<th>설명</th>
+<th>request</th>
+<th>response</th>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</table>
