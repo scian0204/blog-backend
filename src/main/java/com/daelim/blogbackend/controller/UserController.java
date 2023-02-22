@@ -2,6 +2,8 @@ package com.daelim.blogbackend.controller;
 
 import com.daelim.blogbackend.entity.User;
 import com.daelim.blogbackend.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.Map;
@@ -13,27 +15,32 @@ public class UserController {
     UserService userService;
 
     @PostMapping("/signup")
-    public User signUp(@RequestBody Map<String, Object> userObj) {
-        return userService.signUp(userObj);
+    public String signUp(@RequestBody Map<String, Object> userObj, HttpSession session) {
+        return userService.signUp(userObj, session);
     }
 
-    @GetMapping("/login")
-    public void login() {
-        userService.login();
+    @PostMapping("/login")
+    public String login(@RequestBody Map<String, Object> userObj, HttpSession session) {
+        return userService.login(userObj, session);
+    }
+
+    @GetMapping("/logout")
+    public void logout(HttpSession session) {
+        session.removeAttribute("userId");
     }
 
     @GetMapping("/isLogin")
-    public void isLogin() {
-        userService.isLogin();
+    public Object isLogin(HttpSession session) {
+        return session.getAttribute("userId");
     }
 
     @PutMapping("/modify")
-    public void updateUser(@RequestBody Map<String,Object> userObj) {
-        userService.updateUser(userObj);
+    public void updateUser(@RequestBody Map<String, Object> userObj, HttpSession session) {
+        userService.updateUser(userObj, session);
     }
 
-    @DeleteMapping("/{userId}")
-    public void deleteUser(@PathVariable String userId) {
-        userService.deleteUser(userId);
+    @PostMapping("/delete")
+    public String deleteUser(@RequestBody Map<String, Object> userObj, HttpSession session) {
+        return userService.deleteUser(userObj, session);
     }
 }
