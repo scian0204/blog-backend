@@ -2,11 +2,13 @@ package com.daelim.blogbackend.service;
 
 import com.daelim.blogbackend.entity.Board;
 import com.daelim.blogbackend.repository.BoardRepository;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 
@@ -16,26 +18,67 @@ public class BoardService{
     @Autowired()
     BoardRepository boardRepository;
 
-    public Board write(Map<String, Object> boardObj) {
+    public void write(Map<String, Object> boardObj, MultipartFile file) throws Exception { //글 작성 처리
         Board board = objMpr.convertValue(boardObj, Board.class);
+//        String idx = (String) boardObj.get("idx");
+        String filePath = System.getProperty("user.dir") + "\\src\\main\\resources\\files"; //저장할 경로 지정
+
+        if (file == null) {
+        } else {
+            File saveFile = new File(filePath, (String) boardObj.get("idx"));
+            file.transferTo(saveFile);
+            board.setImageLoc(String.valueOf(saveFile));
+        }
+
         boardRepository.save(board);
-        return board;
     }
 
-    public List<Board> getAllBoards() {
+    public List<Board> getAllBoards() { //게시글 리스트 처리
+//        long boardsCount = boardRepository.count(); //게시글 수 0개 조건문??
         return boardRepository.findAll();
     }
 
-    public Board viewBoard(Integer idx) {
+    public Board viewBoard(Integer idx) { //게시물 상세 페이지
         return boardRepository.findById(idx).get();
     }
 
-    public void updateBoard(Map<String, Object> boardObj) {
+    public void updateBoard(Map<String, Object> boardObj, HttpSession session) throws Exception { //게시물 수정
+//        System.out.println("test1");
         Board board = objMpr.convertValue(boardObj, Board.class);
-        boardRepository.save(board);
+//        String filePath = System.getProperty("user.dir") + "\\src\\main\\resources\\files"; //이미지 수정용 주소 (필요한가??)
+
+        session.setAttribute("userId", "test"); //테스트용
+
+        System.out.println(session.getAttribute("userId") != null && session.getAttribute("userId").equals(board.getUserId()));
+        if (session.getAttribute("userId") != null && session.getAttribute("userId").equals(board.getUserId())) {
+//            System.out.println("test2");
+            board.setTitle(board.getTitle());
+            board.setContent(board.getContent());
+//            File saveFile = new File(filePath, (String) boardObj.get("idx"));
+//            file.transferTo(saveFile);
+//            board.setImageLoc(String.valueOf(saveFile));
+
+            boardRepository.save(board);
+        }
     }
 
-    public void deleteBoard(Integer idx) {
+/*    public void deleteBoard(Integer idx, HttpSession session) { //게시물 삭제
+        //userId가 접속된 userId와 동일한지 비교??,,,,
+//        if (session.getAttribute("userId") != null && session.getAttribute("userId").equals(board.getUserId())) {
+//        }
         boardRepository.deleteById(idx);
+    }*/
+
+    public String deleteBoardPost(Map<String, Object> boardObj, HttpSession session) { //게시물 삭제
+        Integer idx = (Integer) boardObj.get("idx");
+        String userId = (String) boardObj.get("userId");
+
+        System.out.println("test");
+        if (session.getAttribute("userId") != null && session.getAttribute("userId").equals(userId)) {
+            boardRepository.deleteById(idx);
+            return "0"; //userId 동일 = 삭제됨
+        } else {
+            return "1"; //
+        }
     }
 }

@@ -128,10 +128,82 @@ pw가 틀렸을 때 : "1"<br>
 <th>response</th>
 </tr>
 <tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<td>/write</td>
+<td>POST</td>
+<td>게시물 작성</td>
+<td><code>
+{
+    "idx" : null, <br>
+    "userId" : "", <br>
+    "title" : "", <br>
+    "content" : "", <br>
+    "writeDate" : null, <br>
+    "imageLoc" : null <br>
+}
+</code></td>
+<td>title 미작성 시 : "0" <br>
+content 미작성 시 : "1" <br>
+게시물 작성 성공 : idx</td>
+</tr>
+<tr>
+<td>/list</td>
+<td>GET</td>
+<td>게시물 리스트 조회</td>
+<td><code>
+{
+    "userId" : "", <br>
+	"title" : "", <br>
+	"writeDate" : null <br>
+}
+</code></td>
+<td>List</td>
+</tr>
+<tr>
+<td>/{idx}</td>
+<td>GET</td>
+<td>게시물 상세 페이지 조회</td>
+<td><code>
+{
+    "idx" : "" <br>
+}
+</code></td>
+<td><code>
+{
+    "idx" : null, <br>
+    "userId" : "", <br>
+    "title" : "", <br>
+    "content" : "", <br>
+    "writeDate" : null, <br>
+    "imageLoc" : null <br>
+}
+</code></td>
+</tr>
+<tr>
+<td>/update</td>
+<td>PUT</td>
+<td>게시물 수정 (users의 회원 정보 수정과 동일하게 세션에 저장된 userId와 넘긴 데이터의 userId가 같은지 확인)</td>
+<td><code>
+{
+    "idx" : 글의 아이디,
+    "userId" : "글의 유저 아이디",
+    "title" : "",
+    "content" : "",
+    "writeDate" : null,
+    "imageLoc" : null
+}
+</code></td>
+<td>-</td>
+</tr>
+<tr>
+<td>/{idx}/delete</td>
+<td>POST</td>
+<td>게시물 삭제 (세션에 저장된 userId와 넘긴 데이터의 userId가 같은지 확인)</td>
+<td><code>
+{
+    "idx" : 글의 아이디 <br>
+}
+</code></td>
+<td>userId 상이할 시 : "1"
+삭제 시 : "0"</td>
 </tr>
 </table>
