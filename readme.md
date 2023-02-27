@@ -151,32 +151,37 @@ content 미작성 시 : "1" <br>
 <td>/list</td>
 <td>GET</td>
 <td>게시물 리스트 조회</td>
+<td> - </td>
 <td><code>
-{
-    "userId" : "", <br>
-	"title" : "", <br>
-	"writeDate" : null <br>
-}
+[<br>
+    {<br>
+        "userId" : "", <br>
+	    "title" : "", <br>
+    	"writeDate" : null <br>
+    }, <br>
+    {<br>
+        "userId" : "", <br>
+	    "title" : "", <br>
+    	"writeDate" : null <br>
+    }, .....<br>
+]
 </code></td>
-<td>List</td>
 </tr>
 <tr>
 <td>/{idx}</td>
 <td>GET</td>
 <td>게시물 상세 페이지 조회</td>
 <td><code>
-{
-    "idx" : "" <br>
-}
+    {idx}
 </code></td>
 <td><code>
 {
-    "idx" : null, <br>
+    "idx" : idx, <br>
     "userId" : "", <br>
     "title" : "", <br>
     "content" : "", <br>
-    "writeDate" : null, <br>
-    "imageLoc" : null <br>
+    "writeDate" : "", <br>
+    "imageLoc" : "" <br>
 }
 </code></td>
 </tr>
@@ -197,7 +202,7 @@ content 미작성 시 : "1" <br>
 <td>-</td>
 </tr>
 <tr>
-<td>/{idx}/delete</td>
+<td>/delete</td>
 <td>POST</td>
 <td>게시물 삭제 (세션에 저장된 userId와 넘긴 데이터의 userId가 같은지 확인)</td>
 <td><code>
