@@ -21,10 +21,17 @@ public class UserService{
 
     public String signUp(Map<String, Object> userObj, HttpSession session) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         User user = objMpr.convertValue(userObj, User.class);
-        session.setAttribute("userId", user.getUserId());
-        user.setPassword(encrypt(user.getPassword()));
-        userRepository.save(user);
-        return user.getUserId();
+
+        Optional<User> userS = userRepository.findByUserId(user.getUserId());
+        if (userS.isEmpty()) {
+            session.setAttribute("userId", user.getUserId());
+            user.setPassword(encrypt(user.getPassword()));
+            userRepository.save(user);
+            return user.getUserId();
+        } else {
+            System.out.println("중복됨");
+            return "0";
+        }
     }
 
     public String login(Map<String, Object> userObj, HttpSession session) throws UnsupportedEncodingException, NoSuchAlgorithmException {
@@ -48,19 +55,30 @@ public class UserService{
     public void updateUser(Map<String, Object> userObj, HttpSession session) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         User user = objMpr.convertValue(userObj, User.class);
         if (session.getAttribute("userId") != null && session.getAttribute("userId").equals(user.getUserId())) {
+            Optional<User> optUser = userRepository.findByUserId(user.getUserId());
+            User user1 = optUser.get();
+            user.setRegDate(user1.getRegDate());
             user.setPassword(encrypt(user.getPassword()));
             userRepository.save(user);
         }
     }
 
     public String deleteUser(Map<String, Object> userObj, HttpSession session) throws UnsupportedEncodingException, NoSuchAlgorithmException {
-        String result = login(userObj, session);
-        if (result.equals("1")||result.equals("0")) {
-            return result; // pw틀림
+        String userId = (String) userObj.get("userId");
+        String password = (String) userObj.get("password");
+
+        Optional<User> byUserId = userRepository.findByUserId(userId);
+        if (session.getAttribute("userId").equals(userId)) {
+            User user = byUserId.get();
+            if (user.getPassword().equals(encrypt(password))) {
+                session.removeAttribute("userId");
+                userRepository.deleteById(userId);
+                return "2";
+            } else {
+                return "1"; // id맞음 pw틀림
+            }
         } else {
-            session.removeAttribute("userId");
-            userRepository.deleteById((String)userObj.get("userId"));
-            return "0"; // 삭제됨
+            return "0"; // 로그인 돼있는 id와 다름
         }
     }
 
