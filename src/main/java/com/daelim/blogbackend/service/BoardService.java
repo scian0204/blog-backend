@@ -5,6 +5,8 @@ import com.daelim.blogbackend.repository.BoardRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,9 +26,8 @@ public class BoardService{
 //        String idx = (String) boardObj.get("idx");
         String filePath = System.getProperty("user.dir") + "\\src\\main\\resources\\files"; //저장할 경로 지정
 
-        if (file == null) {
-        } else {
-            File saveFile = new File(filePath, (String) boardObj.get("idx"));
+        if (file != null) {
+            File saveFile = new File(filePath, boardObj.get("idx").toString());
             file.transferTo(saveFile);
             board.setImageLoc(String.valueOf(saveFile));
         }
@@ -34,9 +35,9 @@ public class BoardService{
         boardRepository.save(board);
     }
 
-    public List<Board> getAllBoards() { //게시글 리스트 처리
+    public Page<Board> getAllBoards(Pageable pageable) { //게시글 리스트 처리
 //        long boardsCount = boardRepository.count(); //게시글 수 0개 조건문??
-        return boardRepository.findAll();
+        return boardRepository.findAll(pageable);
     }
 
     public Board viewBoard(Integer idx) { //게시물 상세 페이지

@@ -4,6 +4,10 @@ import com.daelim.blogbackend.entity.Board;
 import com.daelim.blogbackend.service.BoardService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -27,8 +31,8 @@ public class BoardController {
 //    }
 
     @GetMapping("/list")
-    public List<Board> getAllBoards() {
-        return boardService.getAllBoards();
+    public Page<Board> getAllBoards(@PageableDefault(page = 0, size = 10, sort = "idx", direction = Sort.Direction.DESC) Pageable pageable) {
+        return boardService.getAllBoards(pageable);
     }
 
     @PutMapping("/update")

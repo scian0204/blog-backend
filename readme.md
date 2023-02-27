@@ -151,7 +151,10 @@ content 미작성 시 : "1" <br>
 <td>/list</td>
 <td>GET</td>
 <td>게시물 리스트 조회</td>
-<td> - </td>
+<td> 
+page={요청할 페이지} size={한 페이지당 보여줄 게시글 수} <br> 
+예) /list?page=0&size=15
+</td>
 <td><code>
 [<br>
     {<br>
