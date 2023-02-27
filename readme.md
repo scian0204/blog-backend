@@ -191,7 +191,7 @@ content 미작성 시 : "1" <br>
 <td>게시물 수정 (users의 회원 정보 수정과 동일하게 세션에 저장된 userId와 넘긴 데이터의 userId가 같은지 확인)</td>
 <td><code>
 {
-    "idx" : 글의 아이디,
+    "idx" : 글의 인덱스,
     "userId" : "글의 유저 아이디",
     "title" : "",
     "content" : "",
@@ -207,7 +207,8 @@ content 미작성 시 : "1" <br>
 <td>게시물 삭제 (세션에 저장된 userId와 넘긴 데이터의 userId가 같은지 확인)</td>
 <td><code>
 {
-    "idx" : 글의 아이디 <br>
+    "idx" : 글의 인덱스, <br>
+    "userId" : "글의 유저 아이디"<br>
 }
 </code></td>
 <td>userId 상이할 시 : "1"
