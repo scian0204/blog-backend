@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class BoardService{
@@ -47,13 +48,19 @@ public class BoardService{
         Board board = objMpr.convertValue(boardObj, Board.class);
 //        String filePath = System.getProperty("user.dir") + "\\src\\main\\resources\\files"; //이미지 수정용 주소 (필요한가??)
 
-        session.setAttribute("userId", "test"); //테스트용
-
-        System.out.println(session.getAttribute("userId") != null && session.getAttribute("userId").equals(board.getUserId()));
+//        session.setAttribute("userId", "test"); //테스트용
+//        System.out.println(session.getAttribute("userId") != null && session.getAttribute("userId").equals(board.getUserId()));
         if (session.getAttribute("userId") != null && session.getAttribute("userId").equals(board.getUserId())) {
 //            System.out.println("test2");
-            board.setTitle(board.getTitle());
-            board.setContent(board.getContent());
+
+//            board.setTitle(board.getTitle());
+//            board.setContent(board.getContent()); //?
+
+            Optional<Board> optBoard = boardRepository.findById(board.getIdx());
+            Board board1 = optBoard.get();
+            board.setWriteDate(board1.getWriteDate());
+            board.setImageLoc(board1.getImageLoc()); // 날짜와 파일경로 null값으로 넘길 경우 db도 null 수정됨을 방지
+
 //            File saveFile = new File(filePath, (String) boardObj.get("idx"));
 //            file.transferTo(saveFile);
 //            board.setImageLoc(String.valueOf(saveFile));

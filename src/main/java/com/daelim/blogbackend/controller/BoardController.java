@@ -36,7 +36,7 @@ public class BoardController {
         boardService.updateBoard(boardObj, session);
     }
 
-    @GetMapping("/{idx}") // <- userId가 자동으로 들어감(@PathVariable)
+    @GetMapping("/{idx}") // <- idx가 자동으로 들어감(@PathVariable)
     public Board viewBoard(@PathVariable int idx) {
         return boardService.viewBoard(idx);
     }
