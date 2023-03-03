@@ -31,7 +31,11 @@ public class BoardController {
 //    }
 
     @GetMapping("/list")
-    public Page<Board> getAllBoards(@PageableDefault(page = 0, size = 10, sort = "idx", direction = Sort.Direction.DESC) Pageable pageable) {
+    public Page<Board> getAllBoardsDESC(@PageableDefault(page = 0, size = 10, sort = "idx", direction = Sort.Direction.DESC) Pageable pageable) {
+        return boardService.getAllBoards(pageable);
+    }
+    @GetMapping("/list/ASC")
+    public Page<Board> getAllBoardsASC(@PageableDefault(page = 0, size = 10, sort = "idx", direction = Sort.Direction.ASC) Pageable pageable) {
         return boardService.getAllBoards(pageable);
     }
 
