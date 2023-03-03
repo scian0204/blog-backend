@@ -148,12 +148,13 @@ content 미작성 시 : "1" <br>
 게시물 작성 성공 : idx</td>
 </tr>
 <tr>
-<td>/list</td>
+<td>/list(/ASC)</td>
 <td>GET</td>
 <td>게시물 리스트 조회</td>
 <td> 
 page={요청할 페이지} size={한 페이지당 보여줄 게시글 수} <br> 
 예) /list?page=0&size=15
+/ASC 추가할 시 반대로 정렬 됨
 </td>
 <td><code>
 [<br>
