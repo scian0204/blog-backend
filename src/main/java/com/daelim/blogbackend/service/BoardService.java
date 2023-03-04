@@ -78,7 +78,7 @@ public class BoardService{
     }*/
 
     public String deleteBoardPost(Map<String, Object> boardObj, HttpSession session) { //게시물 삭제
-        Integer idx = (Integer) boardObj.get("idx");
+        Integer idx = Integer.parseInt((String) boardObj.get("idx"));
         String userId = (String) boardObj.get("userId");
 
         System.out.println("test");
